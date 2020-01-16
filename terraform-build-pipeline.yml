@@ -14,7 +14,7 @@ steps:
   inputs:
     SourceFolder: 'terraform'
     Contents: '**'
-    TargetFolder: 'Terraform'
+    TargetFolder: '$(build.artifactstagingdirectory)/terraform'
     CleanTargetFolder: true
 
 - task: PublishBuildArtifacts@1
