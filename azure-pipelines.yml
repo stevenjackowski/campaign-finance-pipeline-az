@@ -15,13 +15,25 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'specific'
+    project: '7cd340d9-81b0-475b-9481-1acbace7a39e'
+    pipeline: '3'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
+    downloadType: 'single'
+    downloadPath: '$(System.ArtifactsDirectory)'
+
 - task: TerraformTaskV1@0
   inputs:
     provider: 'azurerm'
     command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/_terraform-build/drop/terraform'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    backendServiceArm: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
-    backendAzureRmResourceGroupName: 'terraform-state-rg'
-    backendAzureRmStorageAccountName: 'terraformstate1sj'
-    backendAzureRmContainerName: 'terraform'
-    backendAzureRmKey: 'terraform/terraform.tfstate'
+    environmentServiceNameAzureRM: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
