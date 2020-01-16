@@ -10,6 +10,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.12.19'
+
+
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
