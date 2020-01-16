@@ -10,14 +10,28 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: Terraform@2
+- task: CopyFiles@2
   inputs:
-    TemplatePath: 'terraform'
-    Arguments: 'init'
-    PlanPath: 'terraform'
-    InstallTerraform: true
-    UseAzureSub: true
-    ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
-    ConnectedServiceNameARM: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
-    ManageState: false
+    SourceFolder: 'terraform'
+    Contents: '**'
+    TargetFolder: '$(System.DefaultWorkingDirectory)/terraform'
 
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.12.19'
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    environmentServiceName: 'Free Trial Subscription(2)(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'apply'
+    environmentServiceName: 'Free Trial Subscription(3)(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
