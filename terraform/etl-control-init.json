@@ -1,0 +1,55 @@
+[
+    {
+        "cycle": "2020",
+        "candidates": [
+            {
+                "name" : "Joe Biden",
+                "id" : "P80000722",
+                "committee_ids" : ["C00703975"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Elizabeth Warren",
+                "id" : "P00006130",
+                "committee_idss" : ["C00651182"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Bernie Sanders",
+                "id" : "P60007168",
+                "committee_ids" : ["C00696948", "C00577130"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Pete Buttigieg",
+                "id" : "P00010298",
+                "committee_ids" : ["C00697441"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Michael Bloomberg",
+                "id" : "P00014530",
+                "committee_ids" : ["C00728154"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Amy Klobuchar",
+                "id" : "P80006117",
+                "committee_ids" : ["C00696419"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Tom Steyr",
+                "id" : "P00012716",
+                "committee_ids" : ["C00711614"],
+                "last_qtr_loaded" : ""
+            },
+            {
+                "name" : "Donald Trump",
+                "id" : "P80001571",
+                "committee_ids" : ["C00580100"],
+                "last_qtr_loaded" : ""
+            }         
+        ]
+    }
+]

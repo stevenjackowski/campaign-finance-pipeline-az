@@ -45,7 +45,7 @@ resource "azurerm_storage_account" "store" {
 
   network_rules {
     default_action             = "Deny"
-    ip_rules                   = ["100.0.0.1"]
+    ip_rules                   = ["75.145.69.42"]
     virtual_network_subnet_ids = [azurerm_subnet.subnet.id]
   }
 
@@ -55,11 +55,32 @@ resource "azurerm_storage_account" "store" {
     }
 }
 
+# Create BLOB Container
+resource "azurerm_storage_container" "container" {
+  name                  = "control-blobs"
+  resource_group_name   = azurerm_resource_group.rg.name
+  storage_account_name  = azurerm_storage_account.store.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "blob" {
+  name                   = "etl-control.json"
+  resource_group_name    = azurerm_resource_group.rg.name
+  storage_account_name   = azurerm_storage_account.store.name
+  storage_container_name = azurerm_storage_container.container.name
+  type                   = "Block"
+  source                 = "etl-control-init.json"
+  access_tier            = "Hot"
+}
+
 # Create Data Factory
-resource "azurerm_data_factory" "example" {
-  name                = "example"
+resource "azurerm_data_factory" "datafactory" {
+  name                = "cfpdatafactory1SJ"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  identity {
+      type = "SystemAssigned"
+  }
 
     tags = {
         environment = "dev"
@@ -69,3 +90,6 @@ resource "azurerm_data_factory" "example" {
 }
 
 # TODO - Azure Functions
+
+# TODOs
+# Add role to Data Factory for Storage Account (Data Contributor)
