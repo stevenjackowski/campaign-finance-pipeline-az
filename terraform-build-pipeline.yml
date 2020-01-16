@@ -17,10 +17,8 @@ steps:
     TargetFolder: '$(build.artifactstagingdirectory)/terraform'
     CleanTargetFolder: true
 
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
-
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'terraform-build-artifact'
+    publishLocation: 'pipeline'
