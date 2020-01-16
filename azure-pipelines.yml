@@ -17,12 +17,9 @@ pool:
 steps:
 - task: DownloadBuildArtifacts@0
   inputs:
-    buildType: 'specific'
-    project: '7cd340d9-81b0-475b-9481-1acbace7a39e'
-    pipeline: '3'
-    specificBuildWithTriggering: true
-    buildVersionToDownload: 'latest'
+    buildType: 'current'
     downloadType: 'single'
+    artifactName: 'drop'
     downloadPath: '$(System.ArtifactsDirectory)'
 
 - task: TerraformTaskV1@0
