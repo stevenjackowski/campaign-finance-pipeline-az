@@ -39,3 +39,18 @@ steps:
     backendAzureRmStorageAccountName: 'terraformstate1sj'
     backendAzureRmContainerName: 'terraform'
     backendAzureRmKey: 'terraform.tfstate'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    environmentServiceNameAzureRM: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
+
+- task: TerraformTaskV1@0
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-auto-approve'
+    environmentServiceNameAzureRM: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
