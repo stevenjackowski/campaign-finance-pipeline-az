@@ -25,6 +25,10 @@ steps:
     artifactName: 'terraform-build-artifact'
     targetPath: '$(Pipeline.Workspace)'
 
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '0.12.19'
+
 - task: TerraformTaskV1@0
   inputs:
     provider: 'azurerm'
