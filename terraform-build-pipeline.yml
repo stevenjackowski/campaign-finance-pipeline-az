@@ -19,6 +19,6 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(build.artifactstagingdirectory)'
     artifact: 'terraform-build-artifact'
     publishLocation: 'pipeline'
