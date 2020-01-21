@@ -20,16 +20,18 @@ steps:
   inputs:
     terraformVersion: '0.12.19'
 
+
 - task: TerraformTaskV1@0
   inputs:
     provider: 'azurerm'
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-lock=false'
     backendServiceArm: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
-    backendAzureRmResourceGroupName: 'terraform-state-rg'
-    backendAzureRmStorageAccountName: 'terraformstate1sj'
-    backendAzureRmContainerName: 'terraform'
-    backendAzureRmKey: 'terraform.tfstate'
+    backendAzureRmResourceGroupName: '$(TF_VAR_backend_rg)'
+    backendAzureRmStorageAccountName: '$(TF_VAR_backend_account)'
+    backendAzureRmContainerName: '$(TF_VAR_backend_container)'
+    backendAzureRmKey: '$(TF_VAR_backend_key)'
 
 - task: TerraformTaskV1@0
   inputs:
