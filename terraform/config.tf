@@ -43,12 +43,6 @@ resource "azurerm_storage_account" "store" {
   account_replication_type = "LRS"
   account_kind              = "StorageV2"
 
-  network_rules {
-    default_action             = "Deny"
-    ip_rules                   = ["75.145.69.42"]
-    virtual_network_subnet_ids = [azurerm_subnet.subnet.id]
-  }
-
     tags = {
         environment = "dev"
         project = "campaign-finance"
@@ -61,6 +55,7 @@ resource "azurerm_storage_container" "container" {
   resource_group_name   = azurerm_resource_group.rg.name
   storage_account_name  = azurerm_storage_account.store.name
   container_access_type = "private"
+
 }
 
 resource "azurerm_storage_blob" "blob" {
@@ -71,6 +66,7 @@ resource "azurerm_storage_blob" "blob" {
   type                   = "Block"
   source                 = "etl-control-init.json"
   access_tier            = "Hot"
+
 }
 
 # Create Data Factory
