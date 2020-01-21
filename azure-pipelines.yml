@@ -15,15 +15,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DownloadPipelineArtifact@2
-  inputs:
-    buildType: 'specific'
-    project: '7cd340d9-81b0-475b-9481-1acbace7a39e'
-    definition: '3'
-    specificBuildWithTriggering: true
-    buildVersionToDownload: 'latest'
-    artifactName: 'terraform-build-artifact'
-    targetPath: '$(Pipeline.Workspace)'
 
 - task: TerraformInstaller@0
   inputs:
