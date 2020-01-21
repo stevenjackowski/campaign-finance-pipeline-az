@@ -28,10 +28,10 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
     commandOptions: '-backend-config="resource_group_name=$TF_VAR_BACKEND_RG" -backend-config="storage_account_name=$TF_VAR_BACKEND_ACCOUNT" -backend-config="container_name=$TF_VAR_BACKEND_CONTAINER" -backend-config="key=$TF_VAR_BACKEND_KEY"'
     backendServiceArm: 'Free Trial Subscription(da17c1f2-92e5-4bfe-971b-b3692b8b50f3)'
-    backendAzureRmResourceGroupName: 'terraform-state-rg'
-    backendAzureRmStorageAccountName: 'terraformstate1sj'
-    backendAzureRmContainerName: 'terraform'
-    backendAzureRmKey: 'terraform.tfstate'
+    backendAzureRmResourceGroupName: $(TF_VAR_backend_rg)
+    backendAzureRmStorageAccountName: ${TF_VAR_backend_storage}
+    backendAzureRmContainerName: ${TF_VAR_backend_container}
+    backendAzureRmKey: ${TF_VAR_backend_key}
 
 - task: TerraformTaskV1@0
   inputs:
