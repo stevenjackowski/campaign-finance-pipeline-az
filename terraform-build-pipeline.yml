@@ -15,10 +15,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'terraform'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+    CleanTargetFolder: true
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(build.artifactstagingdirectory)'
+    artifact: 'terraform-build-artifact'
+    publishLocation: 'pipeline'
