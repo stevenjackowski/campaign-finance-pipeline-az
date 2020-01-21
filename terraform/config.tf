@@ -58,6 +58,7 @@ resource "azurerm_storage_container" "container" {
 
 }
 
+# Add the initial control JSON which includes candidate names
 resource "azurerm_storage_blob" "blob" {
   name                   = "etl-control.json"
   resource_group_name    = azurerm_resource_group.rg.name
@@ -66,6 +67,15 @@ resource "azurerm_storage_blob" "blob" {
   type                   = "Block"
   source                 = "etl-control-init.json"
   access_tier            = "Hot"
+
+}
+
+# 
+resource "azurerm_storage_container" "container2" {
+  name                  = "raw-data"
+  resource_group_name   = azurerm_resource_group.rg.name
+  storage_account_name  = azurerm_storage_account.store.name
+  container_access_type = "private"
 
 }
 
