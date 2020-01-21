@@ -32,7 +32,7 @@ steps:
     backendAzureRmContainerName: '$(TF_VAR_backend_container)'
     backendAzureRmKey: '$(TF_VAR_backend_key)'
 
-- task: Delay@1
+- task: Delay@0
   inputs:
     delayForMinutes: '0.2'
 
