@@ -32,6 +32,9 @@ steps:
     backendAzureRmContainerName: '$(TF_VAR_backend_container)'
     backendAzureRmKey: '$(TF_VAR_backend_key)'
 
+- task: Delay@1
+  inputs:
+    delayForMinutes: '0.2'
 
 - task: TerraformTaskV1@0
   inputs:
