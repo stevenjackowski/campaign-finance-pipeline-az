@@ -1,30 +1,5 @@
-variable "backend_rg" {
-  type        = string
-  description = "Resource group name "
-}
-
-variable "backend_account" {
-  type        = string
-  description = "The id of the machine image (AMI) to use for the server."
-}
-
-variable "backend_container" {
-  type        = string
-  description = "The id of the machine image (AMI) to use for the server."
-}
-
-variable "backend_key" {
-  type        = string
-  description = "The id of the machine image (AMI) to use for the server."
-}
-
-
 terraform {
   backend "azurerm" {
-    resource_group_name  = var.backend_rg
-    storage_account_name = var.backend_account
-    container_name       = var.backend_container
-    key                  = var.backend_key
   }
 }
 
