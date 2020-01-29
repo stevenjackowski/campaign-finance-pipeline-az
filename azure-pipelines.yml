@@ -3,13 +3,13 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-resources:
-  pipelines:
-  - pipeline: terraformBuild
-    source: terraform-build
-    trigger: 
-      branches:
-      - master
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - terraform/*
 
 pool:
   vmImage: 'ubuntu-latest'

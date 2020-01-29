@@ -1,15 +1,9 @@
+# Terraform Setup
+This project makes use of Terraform and Azure Pipelines in order to create infrastructure as code, and automatically deploy infrastructure as code is committed to the repository. 
 
 
-To set environment variables, see the documentation (here)[https://docs.microsoft.com/en-us/azure/virtual-machines/linux/terraform-install-configure?/azure/terraform/toc.json&bc=/azure/bread/toc.json].
 
-```
-#!/bin/sh
-echo "Setting environment variables for Terraform"
-export ARM_SUBSCRIPTION_ID=your_subscription_id
-export ARM_CLIENT_ID=your_appId
-export ARM_CLIENT_SECRET=your_password
-export ARM_TENANT_ID=your_tenant_id
 
-# Not needed for public, required for usgovernment, german, china
-export ARM_ENVIRONMENT=public
-```
+To initialize Terraform locally, without running through Azure Pipelines, the following command can be used once the corresponding environment Variables have been set.
+
+` terraform init -backend-config="resource_group_name=$TF_VAR_BACKEND_RG" -backend-config="storage_account_name=$TF_VAR_BACKEND_ACCOUNT" -backend-config="container_name=$TF_VAR_BACKEND_CONTAINER" -backend-config="key=$TF_VAR_BACKEND_KEY" `
