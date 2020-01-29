@@ -11,7 +11,7 @@
             {
                 "name" : "Elizabeth Warren",
                 "id" : "P00006130",
-                "committee_idss" : ["C00651182"],
+                "committee_ids" : ["C00651182"],
                 "last_qtr_loaded" : ""
             },
             {
