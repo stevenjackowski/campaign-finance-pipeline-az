@@ -99,14 +99,10 @@ resource "azurerm_data_factory" "datafactory" {
 }
 
 # App Service Plan used for Azure Functions
-resource "azurerm_app_service_plan" "appserviceplace" {
+resource "azurerm_app_service_plan" "appserviceplan" {
   name                = "azure-functions-service-plan-1sj"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
-  site_config {
-    use_32_bit_worker_process = true
-  }
 
   sku {
     tier = "Free"
@@ -118,7 +114,7 @@ resource "azurerm_function_app" "function" {
   name                      = "campaign-finance-function"
   location                  = azurerm_resource_group.rg.location
   resource_group_name       = azurerm_resource_group.rg.name
-  app_service_plan_id       = azurerm_app_service_plan.appserviceplace.id
+  app_service_plan_id       = azurerm_app_service_plan.appserviceplan.id
   storage_connection_string = azurerm_storage_account.cfpstorageaccount1sj.primary_connection_string
 }
 
