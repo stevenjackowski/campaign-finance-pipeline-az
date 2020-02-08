@@ -61,7 +61,10 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"functionName": "getFecDataRaw",
+								"functionName": {
+									"value": "@concat(concat('getFecDataRaw?apiKey=',variables('fecApiKey')),concat('&candidateName=', item()))",
+									"type": "Expression"
+								},
 								"method": "POST"
 							},
 							"linkedServiceName": {
@@ -73,6 +76,12 @@
 				}
 			}
 		],
+		"variables": {
+			"fecApiKey": {
+				"type": "String",
+				"defaultValue": "DtAehhI9j9WL6FRthQKdM5tvPBBo6M5SHlTlL0fT"
+			}
+		},
 		"annotations": []
 	}
 }
