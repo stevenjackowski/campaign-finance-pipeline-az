@@ -44,12 +44,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('LookupCandidates').output.value.candidates",
+						"value": "@activity('LookupCandidates').output.value[0].candidates",
 						"type": "Expression"
 					},
 					"activities": [
 						{
 							"name": "Azure Function1",
+							"description": "",
 							"type": "AzureFunctionActivity",
 							"dependsOn": [],
 							"policy": {
@@ -62,7 +63,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"functionName": {
-									"value": "@concat(concat('getFecDataRaw?apiKey=',variables('fecApiKey')),concat('&candidateName=', item()))",
+									"value": "@concat(concat('getFecDataRaw?apiKey=',variables('fecApiKey')),concat('&candidateName=', item().name))",
 									"type": "Expression"
 								},
 								"method": "POST"
