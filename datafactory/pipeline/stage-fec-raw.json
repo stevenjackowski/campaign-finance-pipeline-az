@@ -1,0 +1,88 @@
+{
+	"name": "stage-fec-raw",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupCandidates",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						}
+					},
+					"dataset": {
+						"referenceName": "etl_control",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachCandidate",
+				"description": "Loop through candidates in the control-blob. Currently setup for only the 2020 cycle.",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LookupCandidates",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LookupCandidates').output.value[0].candidates",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Azure Function1",
+							"description": "",
+							"type": "AzureFunctionActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 2,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"functionName": {
+									"value": "@concat(concat('getFecDataRaw?apiKey=',variables('fecApiKey')),concat('&candidateName=', item().name))",
+									"type": "Expression"
+								},
+								"method": "POST"
+							},
+							"linkedServiceName": {
+								"referenceName": "GetRawFECDataFunction",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"fecApiKey": {
+				"type": "String",
+				"defaultValue": "DtAehhI9j9WL6FRthQKdM5tvPBBo6M5SHlTlL0fT"
+			}
+		},
+		"annotations": []
+	}
+}

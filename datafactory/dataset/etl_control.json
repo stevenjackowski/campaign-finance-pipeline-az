@@ -1,0 +1,49 @@
+{
+	"name": "etl_control",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "etlControlStorageAccount",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "etl-control.json",
+				"container": "control-blobs"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"cycle": {
+					"type": "string"
+				},
+				"candidates": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							},
+							"committee_ids": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							},
+							"last_qtr_loaded": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
