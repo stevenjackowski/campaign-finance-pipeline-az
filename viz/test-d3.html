@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.dot {
+    fill: steelblue;
+    stroke: #fff;
+}
+
+#chart {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+</style>
+
+<body>
+<svg id="chart"></svg>
+  <script src="https://d3js.org/d3.v5.js"></script>
+
+  <script>
+ 
+// Define margins
+var margin = { top: 20, right: 80, bottom: 30, left: 80 },
+  width =
+    parseInt(d3.select("#chart").style("width")) - margin.left - margin.right,
+  height =
+    parseInt(d3.select("#chart").style("height")) - margin.top - margin.bottom;
+
+// Define date parser
+var parseDate = d3.timeParse("%Y-%m-%dT%H:%M:%S");
+
+// Define scales
+var xScale = d3.scaleTime().range([0, width]);
+var yScale = d3.scaleLinear().range([height, 0]);
+var color = d3.scaleOrdinal().range(d3.schemeCategory10);
+
+// Define axes
+var xAxis = d3.axisBottom().scale(xScale);
+var yAxis = d3.axisLeft().scale(yScale);
+
+// Define lines
+var line = d3
+  .line()
+//  .curve(d3.curveMonotoneX)
+  .x(function(d) {
+    return xScale(d["date"]);
+  })
+  .y(function(d) {
+    return yScale(d["value"]);
+  });
+
+// Define svg canvas
+var svg = d3
+  .select("#chart")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Read in data
+
+d3.json("fakeData.json").then(function(data) {
+
+  // Set the color domain equal to the candidates
+  var candidates = d3.keys(data[0]).filter(function(key) {
+    return key !== "period_end_date";
+  });
+
+  var candidates = [... new Set(data.map(x => x.candidate))];
+  console.log(candidates)
+
+  color.domain(candidates);
+
+//    console.log(JSON.stringify(data, null, 2)) // to view the structure
+
+  // Format the data field
+  data.forEach(function(d) {
+    d["period_end_date"] = parseDate(d["period_end_date"]);
+  });
+//   console.log(JSON.stringify(data, null, 2)) // to view the structure
+  // Filter the data to only include a single metric
+//   var subset = data.filter(function(el) {
+//     return el.metric === "Quantity";
+//   });
+  // console.log(JSON.stringify(subset, null, 2))
+
+  // Reformat data for drawing lines:
+  //    Resulting object should be an array of objects,
+  //    where each object is a set of data for a line
+  // var lineData = finCategories.map(function(category) {
+  //   return {
+  //     category: category,
+  //     datapoints: data.map(function(d) {
+  //       return { date: d["period_end_date"], dollars: +d[category] };
+  //     })
+  //   };
+  // });
+
+  var linesData = candidates.map(c => {
+    return {
+      candidate: c,
+      contribution_datapoints: data.filter(d => d.candidate == c).map(d => {
+        return {
+          date: d["period_end_date"],
+          value: d["total_contributions"],
+        }
+      }),
+      expenditure_datapoints: data.filter(d => d.candidate == c).map(d => {
+        return {
+          date: d["period_end_date"],
+          value: d["operating_expenditures"]
+        }
+      })
+    }
+  });
+
+  console.log(JSON.stringify(linesData, null, 2)) // to view the structure
+
+  // Note: Natively supplied data format will be used for drawing dots 
+
+  // Set the domain of the axes
+  xScale.domain(
+    d3.extent(data, function(d) {
+      return d["period_end_date"];
+    })
+  );
+  
+  yScale.domain(
+    d3.extent(data, d => d["total_contributions"])
+  )
+
+  // Place the axes on the chart
+  svg
+    .append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis.tickFormat(d3.timeFormat("%b %Y")));
+
+  svg
+    .append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+    .append("text")
+    .attr("class", "label")
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .attr("dx", ".71em")
+    .style("text-anchor", "beginning")
+    .text("Total Contributions");
+
+  var candidates = svg
+    .selectAll(".candidate") // Selects the class that sets a few lines down
+    .data(linesData)
+    .enter()
+    .append("g")
+    .attr("class", "candidate");
+
+  // Draw Lines
+  candidates
+    .append("path")
+    .attr("class", "line")
+    .attr("d", function(d) {
+      return line(d.contribution_datapoints);
+    })
+    .style("stroke", function(d) {
+      return color(d.candidate);
+    });
+
+  // Draw Dots
+//   var candidateDots = svg 
+//     .selectAll(".dot")
+//     .data(data)
+//     .enter()
+//     .append("g")
+//     .attr("class")
+
+  // candidates
+  //   .append("circle")
+  //   .attr("class", "dot")
+  //   .attr("cx", function(d) { 
+  //       d.datapoints.map(function(dp) {
+  //           console.log(dp.date)
+  //           return xScale(dp.date);
+  //       })
+  //   })
+  //   .attr("cx", function(d) { 
+  //       d.datapoints.map(function(dp) {
+  //           console.log(dp.dollars)
+  //           return xScale(dp.dollars);
+  //       })
+  //   })
+  //   .attr("r", 5)
+  //   .style("stroke", function(d) {
+  //     return color(d.category);
+  //   });
+
+  svg.selectAll(".dot")
+    .data(data)
+    .enter().append("circle") // Uses the enter().append() method
+    .attr("class", "dot") // Assign a class for styling
+    .attr("cx", function(d) { return xScale(d.period_end_date) })
+    .attr("cy", function(d) { return yScale(d.total_contributions) })
+    .attr("r", 5)
+    .style("fill", function(d) {
+      return color(d.candidate);
+    });
+
+  // // console.log(JSON.stringify(d3.values(concentrations), null, 2)) // to view the structure
+  // console.log(d3.values(dollars)); // to view the structure
+  // console.log(dollars);
+  // console.log(concentrations.map(function()))
+});
+
+// Define responsive behavior
+function resize() {
+  var width =
+      parseInt(d3.select("#chart").style("width")) - margin.left - margin.right,
+    height =
+      parseInt(d3.select("#chart").style("height")) -
+      margin.top -
+      margin.bottom;
+
+  // Update the range of the scale with new width/height
+  xScale.range([0, width]);
+  yScale.range([height, 0]);
+
+  // Update the axis and text with the new scale
+  svg
+    .select(".x.axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+  svg.select(".y.axis").call(yAxis);
+
+  // Force D3 to recalculate and update the line
+  svg.selectAll(".line").attr("d", function(d) {
+    return line(d.contribution_datapoints);
+  });
+
+  svg.selectAll(".dot")
+    .attr("cx", function(d) { return xScale(d.period_end_date) })
+    .attr("cy", function(d) { return yScale(d.total_contributions) })
+
+  // Recalculate the dots
+  // svg.selectAll(".dot")
+  //   .attr("cx", function(d) { return xScale(d['date']) })
+  //   .attr("cy", function(d) { return yScale(d['value']) })
+
+  // Update the tick marks
+  xAxis.ticks(Math.max(width / 75, 2));
+  yAxis.ticks(Math.max(height / 50, 2));
+}
+
+// Call the resize function whenever a resize event occurs
+d3.select(window).on("resize", resize);
+
+// Call the resize function
+resize();
+
+
+  </script>
+</body>

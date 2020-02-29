@@ -1,0 +1,53 @@
+[
+    {
+        "candidate": "Warren",
+        "period_end_date": "2019-12-31T00:00:00",
+        "total_contributions": 21299877.17,
+        "operating_expenditures": 33436630.53
+    },
+    {
+        "candidate": "Warren",
+        "period_end_date": "2019-09-30T00:00:00",
+        "total_contributions": 24610428.73,
+        "operating_expenditures": 18463994.32
+    },
+    {
+        "candidate": "Warren",
+        "period_end_date": "2019-06-30T00:00:00",
+        "total_contributions": 19162855.94,
+        "operating_expenditures": 10522077.63
+    },
+    {
+        "candidate": "Warren",
+        "period_end_date": "2019-03-31T00:00:00",
+        "total_contributions": 6022212.88,
+        "operating_expenditures": 5245604.78
+    },
+    {
+        "candidate": "Sanders",
+        "period_end_date": "2019-12-31T00:00:00",
+        "total_contributions": 200000.17,
+        "operating_expenditures": 33436630.53
+    },
+    {
+        "candidate": "Sanders",
+        "period_end_date": "2019-09-30T00:00:00",
+        "total_contributions": 22610428.73,
+        "operating_expenditures": 18463994.32
+    },
+    {
+        "candidate": "Sanders",
+        "period_end_date": "2019-06-30T00:00:00",
+        "total_contributions": 9162855.94,
+        "operating_expenditures": 10522077.63
+    },
+    {
+        "candidate": "Sanders",
+        "period_end_date": "2019-03-31T00:00:00",
+        "total_contributions": 22212.88,
+        "operating_expenditures": 5245604.78
+    }
+]
+
+
+
