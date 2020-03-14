@@ -7,7 +7,6 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get",
         "post"
       ]
     },
@@ -15,6 +14,20 @@
       "type": "http",
       "direction": "out",
       "name": "$return"
+    },
+    {
+      "name": "inputblob",
+      "direction": "in",
+      "type": "blob",
+      "path": "control-blobs/etl-control.json",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "outputblob",
+      "type": "blob",
+      "path": "final-data/final2020.json",
+      "connection": "AzureWebJobsStorage",
+      "direction": "out"
     }
   ]
 }

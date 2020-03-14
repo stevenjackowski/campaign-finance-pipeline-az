@@ -12,7 +12,7 @@ VALID_CANDIDATES = ["Joe Biden", "Elizabeth Warren", "Bernie Sanders", "Pete But
 
 def get_fec_committee_data(committee_id, api_key):
     # Note that some parameters are hardcoded into this URL - this can be improved in the future with some additional paramaterization
-    request_url = BASE_URL + f"{committee_id}?api_key={api_key}&cycle=2020&is_amended=false&type=P"
+    request_url = BASE_URL + f"{committee_id}/reports?api_key={api_key}&cycle=2020&is_amended=false&type=P"
     r = requests.get(request_url)
     r.raise_for_status()
     logging.info("Recieved response: " + str(r.json()))
@@ -62,7 +62,7 @@ def main(req: func.HttpRequest, inputblob: func.InputStream, outputblob: func.Ou
 
     # Send a 200 status code with the copied blob data to the API user
     return func.HttpResponse(
-             "Copied JSON data to BLOB: %s" % output_string,
+             json.dumps({"Copied JSON data to BLOB" : output_string}),
              status_code=200
         )
 
